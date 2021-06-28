@@ -1,6 +1,6 @@
 ## react-sneakers-ecommerce
 - npx create-react-app ./
-- npm install node-sass
+- npm install node-sass@4.14.1
 
 
 
