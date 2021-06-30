@@ -1,7 +1,11 @@
+*{
+  font-family: "Inter", system-ui;
+}
+
 
 body {
   margin: 0;
-  font-family: "Inter", system-ui;
+  // font-family: "Inter", system-ui;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #e7f6ff;
@@ -33,5 +37,61 @@ header {
 .content {
   h1 {
     margin: 0;
+  }
+}
+
+.card{
+  border:1px solid #797676;
+  padding:20px;
+  width:210px;
+  border-radius: 40px;
+  margin-right:30px;
+  transition: box-shadow .2s ease-in-out;
+
+  &:hover{
+    box-shadow: 0px 14px 30px rgba(0,0,0,0.1);
+    cursor:pointer;
+  }
+
+  .favorite{
+    cursor: pointer;
+    position:absolute;
+  }
+  span{
+    text-transform: uppercase;
+    font-size: 13px;
+    opacity: .8;
+  }
+
+  b{
+    font-size: 13px;
+  }
+  
+  h5{
+    font-weight: 400;
+    font-size: 14px;
+  }
+}
+
+.button{
+  background-color: #ffffff;
+  border:1px solid #f2f2f2;
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+}
+
+.search-block{
+  border:1px solid #f3f3f3;
+  border-radius: 10px;
+  padding:0 15px;
+
+  input{
+    border:0;
+    padding:13px;
+    font-size: 16px;
+    width:200px;
   }
 }
