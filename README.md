@@ -14,3 +14,4 @@
 
 1. Cart component
 2. Header component
+3. Drawer component

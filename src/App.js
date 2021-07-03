@@ -1,64 +1,38 @@
 import React from "react"
 import Cart from "./components/Cart"
 import Header from "./components/Header"
+import Drawer from "./components/Drawer"
 
 
+
+const arr=[
+  {
+    title:"Мужские Кроссовки Nike Blazer Mid Suede",
+    price:12999,
+    imageUrl:'/img/sneakers/1.jpg',
+  },
+  {
+    title:"Мужские Кроссовки Nike Random Run Z",
+    price:15600,
+    imageUrl:'/img/sneakers/2.jpg',
+  },
+  {
+    title:"Мужские Кроссовки Nike Air Max 270",
+    price:8499,
+    imageUrl:'/img/sneakers/3.jpg',
+  },
+  {
+    title:"Кроссовки Puma X Aka Boku Future Rider",
+    price:8999,
+    imageUrl:'/img/sneakers/4.jpg',
+  },
+]
 
 function App() {
   return (
-    <div className="wrapper clear">
-      <div style={{display:"none"}} className="overlay">
-
-        {/* side drawer */}
-        <div className="drawer">
-          <h2 className="mb-30 d-flex justify-between ">
-            Корзина
-            <img className="removeBtn cu-p" src="/img/btn-remove.svg" alt="remove_icon" />
-          </h2>
-
-          <div className="items">
-
-                    {/* cart item */}
-            <div className="cartItem d-flex align-center mb-20">
-              <div className="cartItemImg" style={{ backgroundImage:"url(/img/sneakers/1.jpg)" }}></div>
-
-              <div className="mr-20 flex">
-                <p className="mb-5">Мужские Кроссовки Nike Blazer Mid Suede</p>
-                <b>12 999 руб.</b>
-              </div>
-              <img className="removeBtn" src="/img/btn-remove.svg" alt="remove_icon" />
-            </div>
-
-    
-          </div>
-          
-          <div className="cartTotalBlock">
-                <ul>
-
-                  <li>
-                    <span>Итого:</span>
-                    <div></div>
-                    <b>22 000 рубл.</b>
-                  </li>
-
-                  <li>
-                    <span>Налог 5%:</span>
-                    <div></div>
-                    <b>1100 рубл.</b>
-                  </li>
-
-                </ul>
-
-                <button className="greenBtn">Оформить заказ
-                  <img src="/img/arrow.svg" alt="arrow_icon" />
-                </button>
-          </div>
-
-        </div>      
-      </div>
-    
-
-      <Header/>
+    <div className="wrapper clear">     
+        <Drawer />
+        <Header/>
 
 
       <div className="content p-40">
@@ -71,53 +45,9 @@ function App() {
         </div>
         
         <div className="d-flex">
-            {/* Card Item */}
-          <Cart />
-
-          {/* Card Item */}
-          <div className="card">
-            <img src="/img/sneakers/2.jpg" alt="sneaker_one" width={133} height={112}/>
-            <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Цена</span>
-                <b>12 999 руб.</b>
-              </div>
-              <button className="button">
-                <img src="/img/plus.svg" alt="plus_icon" width={11} height={11} />
-              </button>
-            </div>
-          </div>
-
-          {/* Card Item */}
-          <div className="card">
-            <img src="/img/sneakers/3.jpg" alt="sneaker_one" width={133} height={112}/>
-            <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Цена</span>
-                <b>12 999 руб.</b>
-              </div>
-              <button className="button">
-                <img src="/img/plus.svg" alt="plus_icon" width={11} height={11} />
-              </button>
-            </div>
-          </div>
-
-          {/* Card Item */}
-          <div className="card">
-            <img src="/img/sneakers/4.jpg" alt="sneaker_one" width={133} height={112}/>
-            <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Цена</span>
-                <b>12 999 руб.</b>
-              </div>
-              <button className="button">
-                <img src="/img/plus.svg" alt="plus_icon" width={11} height={11} />
-              </button>
-            </div>
-          </div>
+            {arr.map(i=>(
+              <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={i.title} />
+            ))}
         </div>
 
       </div>
