@@ -5,10 +5,11 @@ import styles from "./Cart.module.scss"
 
 
 
-const Cart = ({title,price,imageUrl}) => {
+const Cart = ({title,price,imageUrl,onPlus}) => {
   const [iconChange,setIconChange]=useState(false);
 
   const onIconClick=()=>{
+    onPlus({title,price,imageUrl})
     setIconChange(!iconChange)
   }
     return (

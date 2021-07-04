@@ -1,38 +1,35 @@
-import React from "react"
+import React,{useState,useEffect} from "react"
 import Cart from "./components/Cart"
 import Header from "./components/Header"
 import Drawer from "./components/Drawer"
 
 
 
-const arr=[
-  {
-    title:"Мужские Кроссовки Nike Blazer Mid Suede",
-    price:12999,
-    imageUrl:'/img/sneakers/1.jpg',
-  },
-  {
-    title:"Мужские Кроссовки Nike Random Run Z",
-    price:15600,
-    imageUrl:'/img/sneakers/2.jpg',
-  },
-  {
-    title:"Мужские Кроссовки Nike Air Max 270",
-    price:8499,
-    imageUrl:'/img/sneakers/3.jpg',
-  },
-  {
-    title:"Кроссовки Puma X Aka Boku Future Rider",
-    price:8999,
-    imageUrl:'/img/sneakers/4.jpg',
-  },
-]
 
 function App() {
+  const [items,setItems]=useState([])
+  const [drawerItems,setDrawerItems]=useState([])
+  const [openDrawer,setOpenDrawer]=useState(false);
+
+  useEffect(()=>{
+    fetch("https://60e153115a5596001730f08d.mockapi.io/items")
+    .then(res=>{
+      return res.json()
+    }).then(items=>{
+      setItems(items)
+    })
+  },[])
+
+  const onAddToDrawer=(obj)=>{
+    setDrawerItems(prev=>[...prev,obj])
+  }
+
   return (
-    <div className="wrapper clear">     
-        <Drawer />
-        <Header/>
+    <div className="wrapper clear">  
+        {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
+          items={drawerItems}
+        />}           
+        <Header openDrawer={()=>setOpenDrawer(true)}/>
 
 
       <div className="content p-40">
@@ -44,9 +41,11 @@ function App() {
           </div>
         </div>
         
-        <div className="d-flex">
-            {arr.map(i=>(
-              <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={i.title} />
+        <div className="d-flex flex-wrap">
+            {items.map(i=>(
+              <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={i.title}
+                onPlus={(obj)=>onAddToDrawer(i)}
+              />
             ))}
         </div>
 
