@@ -15,14 +15,21 @@ function App() {
 
   useEffect(()=>{
     axios.get("https://60e153115a5596001730f08d.mockapi.io/items")
-    .then(res=>{
-      console.log(res.data)
-      setItems(res.data)
-    })
+    .then(res=>{ setItems(res.data) })
+
+    axios.get("https://60e153115a5596001730f08d.mockapi.io/cart")
+    .then(res=>{ setDrawerItems(res.data) })
   },[])
 
   const onAddToDrawer=(obj)=>{
+    axios.post("https://60e153115a5596001730f08d.mockapi.io/cart",obj);
     setDrawerItems(prev=>[...prev,obj])
+  }
+
+  const onRemoveFromDrawer=(id)=>{
+    console.log(id)
+    // axios.delete(`https://60e153115a5596001730f08d.mockapi.io/cart/${id}`);
+    setDrawerItems(prev=>prev.filter(item=>item.id!==id))
   }
 
   const searchHandler=e=>{
@@ -31,7 +38,7 @@ function App() {
   return (
     <div className="wrapper clear">  
         {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
-          items={drawerItems}
+          items={drawerItems} onRemove={onRemoveFromDrawer}
         />}           
         <Header openDrawer={()=>setOpenDrawer(true)}/>
 
@@ -52,7 +59,7 @@ function App() {
             .filter(item=>item.title.toLowerCase().includes(searchInput))
             .map(i=>(
               <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={i.title}
-                onPlus={(obj)=>onAddToDrawer(i)}
+                onPlus={(obj)=>onAddToDrawer(i)} 
               />
             ))}
         </div>
