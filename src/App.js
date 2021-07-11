@@ -10,6 +10,7 @@ import Drawer from "./components/Drawer"
 function App() {
   const [items,setItems]=useState([])
   const [drawerItems,setDrawerItems]=useState([])
+  const [favorites,setFavorites]=useState([])
   const [openDrawer,setOpenDrawer]=useState(false);
   const [searchInput,setSearchInput]=useState("")
 
@@ -28,8 +29,13 @@ function App() {
 
   const onRemoveFromDrawer=(id)=>{
     console.log(id)
-    // axios.delete(`https://60e153115a5596001730f08d.mockapi.io/cart/${id}`);
+    axios.delete(`https://60e153115a5596001730f08d.mockapi.io/cart/${id}`);
     setDrawerItems(prev=>prev.filter(item=>item.id!==id))
+  }
+
+  const onAddToFavorites=(obj)=>{
+    axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
+    setFavorites(prev=>[...prev,obj])
   }
 
   const searchHandler=e=>{
@@ -57,9 +63,9 @@ function App() {
         <div className="d-flex flex-wrap">
             {items
             .filter(item=>item.title.toLowerCase().includes(searchInput))
-            .map(i=>(
-              <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={i.title}
-                onPlus={(obj)=>onAddToDrawer(i)} 
+            .map((i,ind)=>(
+              <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={ind}
+                onPlus={(obj)=>onAddToDrawer(i)} onFavorite={(obj)=>onAddToFavorites(obj)}
               />
             ))}
         </div>
