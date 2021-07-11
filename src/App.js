@@ -1,8 +1,11 @@
 import React,{useState,useEffect} from "react"
 import axios from "axios"
-import Cart from "./components/Cart"
 import Header from "./components/Header"
 import Drawer from "./components/Drawer"
+
+import { Route } from "react-router-dom";
+import Home from "./pages/Home"
+import Favorites from "./pages/Favorites";
 
 
 
@@ -28,9 +31,8 @@ function App() {
   }
 
   const onRemoveFromDrawer=(id)=>{
-    console.log(id)
     axios.delete(`https://60e153115a5596001730f08d.mockapi.io/cart/${id}`);
-    setDrawerItems(prev=>prev.filter(item=>item.id!==id))
+    setDrawerItems(prev=>prev.filter(it=>it.id!==id))
   }
 
   const onAddToFavorites=(obj)=>{
@@ -43,34 +45,30 @@ function App() {
   }
   return (
     <div className="wrapper clear">  
-        {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
-          items={drawerItems} onRemove={onRemoveFromDrawer}
-        />}           
-        <Header openDrawer={()=>setOpenDrawer(true)}/>
+      {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
+        items={drawerItems} onRemove={onRemoveFromDrawer}
+      />}           
+      <Header openDrawer={()=>setOpenDrawer(true)}/>
 
+      <Route path="/" exact>
+        <Home 
+          items={items}
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          onAddToDrawer={onAddToDrawer}
+          searchHandler={searchHandler}
+          onAddToFavorites={onAddToFavorites}
+        />
 
-      <div className="content p-40">
-        <div className="d-flex align-center justify-between mb-40">
-          <h1>{searchInput? `Поиск по запросу: ${searchInput}` : "Все кроссовки" }</h1>
-          <div className="search-block d-flex">
-            <img src="/img/search.svg" alt="search_icon" />
-            <input type="text" placeholder="Поиск ..." onChange={searchHandler} value={searchInput}/>
-            {searchInput&& <img className="clearBtn" src="/img/btn-remove.svg" alt="clear_icon" onClick={()=>setSearchInput("")}/>}
-            
-          </div>
-        </div>
-        
-        <div className="d-flex flex-wrap">
-            {items
-            .filter(item=>item.title.toLowerCase().includes(searchInput))
-            .map((i,ind)=>(
-              <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={ind}
-                onPlus={(obj)=>onAddToDrawer(i)} onFavorite={(obj)=>onAddToFavorites(obj)}
-              />
-            ))}
-        </div>
+      </Route>
+      <Route path="/favorites">
+        <Favorites 
+            searchInput={searchInput} 
+            setSearchInput={setSearchInput}
+            searchHandler={searchHandler}
+          />
+      </Route>
 
-      </div>
     
     </div>
 
