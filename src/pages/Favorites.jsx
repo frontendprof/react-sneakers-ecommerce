@@ -1,9 +1,10 @@
 
 import React from 'react'
+import Cart from "../components/Cart"
 
 
 
-const Favorites = ({searchInput,setSearchInput,searchHandler}) => {
+const Favorites = ({items,onAddToFavorites}) => {
     return (
         <div className="content p-40">
             <div className="d-flex align-center justify-between mb-40">
@@ -11,7 +12,14 @@ const Favorites = ({searchInput,setSearchInput,searchHandler}) => {
             </div>
         
             <div className="d-flex flex-wrap">
-                Zdes' budut moi zakladki
+                {items?.map((i,ind)=>(
+                    <Cart 
+                        {...i}
+                        onFavorite={onAddToFavorites}
+                        key={ind}
+                        favorited={true}
+                    />
+                ))}
             </div>
       </div>
     )

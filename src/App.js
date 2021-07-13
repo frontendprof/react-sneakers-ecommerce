@@ -23,6 +23,9 @@ function App() {
 
     axios.get("https://60e153115a5596001730f08d.mockapi.io/cart")
     .then(res=>{ setDrawerItems(res.data) })
+
+    axios.get("https://60e153115a5596001730f08d.mockapi.io/favorites")
+    .then(res=>{setFavorites(res.data)})
   },[])
 
   const onAddToDrawer=(obj)=>{
@@ -35,9 +38,15 @@ function App() {
     setDrawerItems(prev=>prev.filter(it=>it.id!==id))
   }
 
-  const onAddToFavorites=(obj)=>{
-    axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
-    setFavorites(prev=>[...prev,obj])
+  const onAddToFavorites=async (obj)=>{
+    if(favorites.find(favObj=>favObj.id===obj.id)){
+      axios.delete(`https://60e153115a5596001730f08d.mockapi.io/favorites/${obj.id}`);
+      setFavorites(prev=>prev.filter(item=>item.id!==obj.id))
+    }else{
+      const {data} = await axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
+      setFavorites(prev=>[...prev,obj])
+    }
+    
   }
 
   const searchHandler=e=>{
@@ -50,7 +59,7 @@ function App() {
       />}           
       <Header openDrawer={()=>setOpenDrawer(true)}/>
 
-      <Route path="/" exact>
+      <Route path="/" exact={true}>
         <Home 
           items={items}
           searchInput={searchInput}
@@ -63,9 +72,8 @@ function App() {
       </Route>
       <Route path="/favorites">
         <Favorites 
-            searchInput={searchInput} 
-            setSearchInput={setSearchInput}
-            searchHandler={searchHandler}
+            items={favorites}
+            onAddToFavorites={onAddToFavorites}
           />
       </Route>
 

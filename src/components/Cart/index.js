@@ -5,9 +5,9 @@ import styles from "./Cart.module.scss"
 
 
 
-const Cart = ({title,price,imageUrl,onPlus,onFavorite}) => {
+const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false}) => {
   const [iconChange,setIconChange]=useState(false);
-  const [isFavorite,setIsFavorite]=useState(false);
+  const [isFavorite,setIsFavorite]=useState(favorited);
 
   const onIconClick=()=>{
     onPlus({title,price,imageUrl})
@@ -15,7 +15,7 @@ const Cart = ({title,price,imageUrl,onPlus,onFavorite}) => {
   }
 
   const favoriteHandler=()=>{
-    onFavorite({title,price,imageUrl})
+    onFavorite({title,price,imageUrl,id})
     setIsFavorite(!isFavorite)
   }
     return (

@@ -19,7 +19,7 @@ const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAd
             <div className="d-flex flex-wrap">
                 {items?.filter(item=>item.title.toLowerCase().includes(searchInput))
                 .map((i,ind)=>(
-                <Cart title={i.title} price={i.price} imageUrl={i.imageUrl} key={ind}
+                <Cart {...i} key={ind}
                     onPlus={(obj)=>onAddToDrawer(i)} onFavorite={(obj)=>onAddToFavorites(obj)}
                 />
                 ))}

@@ -9,7 +9,7 @@ const Header = ({openDrawer}) => {
         <header className="d-flex justify-between align-center p-40">
 
             <div className="d-flex align-center">
-                <Link to="/" exact>
+                <Link to="/">
                     <img src="/img/logo.png" alt="main_logo" width={40} height={40} />
                 </Link>
                 <div>
