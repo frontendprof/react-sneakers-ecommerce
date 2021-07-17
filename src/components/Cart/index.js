@@ -5,12 +5,12 @@ import styles from "./Cart.module.scss"
 
 
 
-const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false}) => {
-  const [iconChange,setIconChange]=useState(false);
+const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false,added=false}) => {
+  const [iconChange,setIconChange]=useState(added);
   const [isFavorite,setIsFavorite]=useState(favorited);
 
   const onIconClick=()=>{
-    onPlus({title,price,imageUrl})
+    onPlus({id,title,price,imageUrl})
     setIconChange(!iconChange)
   }
 

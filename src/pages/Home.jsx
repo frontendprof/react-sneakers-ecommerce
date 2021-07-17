@@ -3,7 +3,7 @@ import React from 'react'
 
 import Cart from "../components/Cart"
 
-const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites}) => {
+const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites,cartItems}) => {
     return (
         <div className="content p-40">
             <div className="d-flex align-center justify-between mb-40">
@@ -19,8 +19,12 @@ const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAd
             <div className="d-flex flex-wrap">
                 {items?.filter(item=>item.title.toLowerCase().includes(searchInput))
                 .map((i,ind)=>(
-                <Cart {...i} key={ind}
-                    onPlus={(obj)=>onAddToDrawer(i)} onFavorite={(obj)=>onAddToFavorites(obj)}
+                <Cart 
+                    key={ind}
+                    {...i} 
+                    onPlus={(obj)=>onAddToDrawer(i)} 
+                    onFavorite={(obj)=>onAddToFavorites(obj)}
+                    added={cartItems.some(obj=>Number(obj.id)===i.id)}
                 />
                 ))}
             </div>

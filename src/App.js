@@ -18,19 +18,27 @@ function App() {
   const [searchInput,setSearchInput]=useState("")
 
   useEffect(()=>{
-    axios.get("https://60e153115a5596001730f08d.mockapi.io/items")
-    .then(res=>{ setItems(res.data) })
+    async function fetchData(){      
+      const cartResp= await axios.get("https://60e153115a5596001730f08d.mockapi.io/cart")      
+      const favoritesResp=await axios.get("https://60e153115a5596001730f08d.mockapi.io/favorites")
+      const itemsResp=await axios.get("https://60e153115a5596001730f08d.mockapi.io/items")
+    
+    setDrawerItems(cartResp.data)
+    setFavorites(favoritesResp.data)
+    setItems(itemsResp.data)
+    }
 
-    axios.get("https://60e153115a5596001730f08d.mockapi.io/cart")
-    .then(res=>{ setDrawerItems(res.data) })
-
-    axios.get("https://60e153115a5596001730f08d.mockapi.io/favorites")
-    .then(res=>{setFavorites(res.data)})
+    fetchData()
   },[])
 
   const onAddToDrawer=(obj)=>{
-    axios.post("https://60e153115a5596001730f08d.mockapi.io/cart",obj);
-    setDrawerItems(prev=>[...prev,obj])
+    if(drawerItems.find(item=>Number(item.id)===Number(obj.id))){
+      axios.delete(`https://60e153115a5596001730f08d.mockapi.io/cart/${obj.id}`)
+      setDrawerItems(prev=>prev.filter(it=>Number(it.id)!==Number(obj.id)))
+    }else{
+      axios.post("https://60e153115a5596001730f08d.mockapi.io/cart",obj);
+      setDrawerItems(prev=>[...prev,obj])
+    }    
   }
 
   const onRemoveFromDrawer=(id)=>{
@@ -39,12 +47,16 @@ function App() {
   }
 
   const onAddToFavorites=async (obj)=>{
-    if(favorites.find(favObj=>favObj.id===obj.id)){
-      axios.delete(`https://60e153115a5596001730f08d.mockapi.io/favorites/${obj.id}`);
-      setFavorites(prev=>prev.filter(item=>item.id!==obj.id))
-    }else{
-      const {data} = await axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
-      setFavorites(prev=>[...prev,obj])
+    try {
+      if(favorites.find(favObj=>favObj.id===obj.id)){
+        axios.delete(`https://60e153115a5596001730f08d.mockapi.io/favorites/${obj.id}`);
+        // setFavorites(prev=>prev.filter(item=>item.id!==obj.id))
+      }else{
+        const {data} = await axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
+        setFavorites(prev=>[...prev,obj])
+      }
+    } catch (error) {
+      alert("Не удалось добавить в фавориты")
     }
     
   }
@@ -62,6 +74,7 @@ function App() {
       <Route path="/" exact={true}>
         <Home 
           items={items}
+          cartItems={drawerItems}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           onAddToDrawer={onAddToDrawer}
