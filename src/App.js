@@ -16,6 +16,7 @@ function App() {
   const [favorites,setFavorites]=useState([])
   const [openDrawer,setOpenDrawer]=useState(false);
   const [searchInput,setSearchInput]=useState("")
+  const [isLoading,setIsLoading]=useState(true)
 
   useEffect(()=>{
     async function fetchData(){      
@@ -23,9 +24,10 @@ function App() {
       const favoritesResp=await axios.get("https://60e153115a5596001730f08d.mockapi.io/favorites")
       const itemsResp=await axios.get("https://60e153115a5596001730f08d.mockapi.io/items")
     
-    setDrawerItems(cartResp.data)
-    setFavorites(favoritesResp.data)
-    setItems(itemsResp.data)
+      setIsLoading(false)
+      setDrawerItems(cartResp.data)
+      setFavorites(favoritesResp.data)
+      setItems(itemsResp.data)
     }
 
     fetchData()
@@ -53,7 +55,7 @@ function App() {
         // setFavorites(prev=>prev.filter(item=>item.id!==obj.id))
       }else{
         const {data} = await axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
-        setFavorites(prev=>[...prev,obj])
+        setFavorites(prev=>[...prev,data])
       }
     } catch (error) {
       alert("Не удалось добавить в фавориты")
@@ -80,6 +82,7 @@ function App() {
           onAddToDrawer={onAddToDrawer}
           searchHandler={searchHandler}
           onAddToFavorites={onAddToFavorites}
+          isLoading={isLoading}
         />
 
       </Route>

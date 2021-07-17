@@ -3,7 +3,23 @@ import React from 'react'
 
 import Cart from "../components/Cart"
 
-const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites,cartItems}) => {
+const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites,cartItems,isLoading}) => {
+    
+    const renderItems=()=>{
+        const filteredItems=items?.filter(item=>item.title.toLowerCase().includes(searchInput))
+        return(isLoading?[...Array(10)]:filteredItems)
+                .map((i,ind)=>(
+                <Cart 
+                    key={ind}
+                    {...i} 
+                    onPlus={(obj)=>onAddToDrawer(i)} 
+                    onFavorite={(obj)=>onAddToFavorites(obj)}
+                    added={cartItems.some(obj=>Number(obj.id)===i.id)}
+                    loading={isLoading}
+                />
+                )
+        )
+    }
     return (
         <div className="content p-40">
             <div className="d-flex align-center justify-between mb-40">
@@ -17,16 +33,7 @@ const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAd
             </div>
         
             <div className="d-flex flex-wrap">
-                {items?.filter(item=>item.title.toLowerCase().includes(searchInput))
-                .map((i,ind)=>(
-                <Cart 
-                    key={ind}
-                    {...i} 
-                    onPlus={(obj)=>onAddToDrawer(i)} 
-                    onFavorite={(obj)=>onAddToFavorites(obj)}
-                    added={cartItems.some(obj=>Number(obj.id)===i.id)}
-                />
-                ))}
+                {renderItems()}
             </div>
       </div>
     )
