@@ -6,6 +6,7 @@ import Drawer from "./components/Drawer"
 import { Route } from "react-router-dom";
 import Home from "./pages/Home"
 import Favorites from "./pages/Favorites";
+import AppContext from "./context"
 
 
 
@@ -50,51 +51,53 @@ function App() {
 
   const onAddToFavorites=async (obj)=>{
     try {
-      if(favorites.find(favObj=>favObj.id===obj.id)){
+      if(favorites.find(favObj=>Number(favObj.id)===Number(obj.id))){
         axios.delete(`https://60e153115a5596001730f08d.mockapi.io/favorites/${obj.id}`);
-        // setFavorites(prev=>prev.filter(item=>item.id!==obj.id))
+        setFavorites(prev=>prev.filter(it=>Number(it.id)!==Number(obj.id)))
       }else{
         const {data} = await axios.post("https://60e153115a5596001730f08d.mockapi.io/favorites",obj);
         setFavorites(prev=>[...prev,data])
       }
     } catch (error) {
       alert("Не удалось добавить в фавориты")
-    }
-    
+    }    
   }
 
   const searchHandler=e=>{
     setSearchInput(e.target.value)
   }
+
+  const isAddedItem=id=>{
+    return drawerItems.some(obj=>Number(obj.id)===Number(id))
+  }
+  
   return (
-    <div className="wrapper clear">  
-      {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
+    <AppContext.Provider value={{ items,drawerItems,favorites,isAddedItem,onAddToFavorites }}>
+      <div className="wrapper clear">  
+        {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
         items={drawerItems} onRemove={onRemoveFromDrawer}
       />}           
-      <Header openDrawer={()=>setOpenDrawer(true)}/>
+        <Header openDrawer={()=>setOpenDrawer(true)}/>
 
-      <Route path="/" exact={true}>
-        <Home 
-          items={items}
-          cartItems={drawerItems}
-          searchInput={searchInput}
-          setSearchInput={setSearchInput}
-          onAddToDrawer={onAddToDrawer}
-          searchHandler={searchHandler}
-          onAddToFavorites={onAddToFavorites}
-          isLoading={isLoading}
-        />
-
-      </Route>
-      <Route path="/favorites">
-        <Favorites 
-            items={favorites}
+        <Route path="/" exact={true}>
+          <Home 
+            items={items}
+            cartItems={drawerItems}
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            onAddToDrawer={onAddToDrawer}
+            searchHandler={searchHandler}
             onAddToFavorites={onAddToFavorites}
+            isLoading={isLoading}
           />
-      </Route>
 
-    
-    </div>
+        </Route>
+        <Route path="/favorites">
+          <Favorites />
+        </Route>   
+      </div>
+    </AppContext.Provider>
+
 
   );
 }

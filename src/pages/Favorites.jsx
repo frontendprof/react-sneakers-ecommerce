@@ -1,10 +1,15 @@
 
 import React from 'react'
 import Cart from "../components/Cart"
+import AppContext from "../context"
 
 
 
-const Favorites = ({items,onAddToFavorites}) => {
+const Favorites = () => {
+
+    const {favorites,onAddToFavorites}=React.useContext(AppContext)
+
+    
     return (
         <div className="content p-40">
             <div className="d-flex align-center justify-between mb-40">
@@ -12,7 +17,7 @@ const Favorites = ({items,onAddToFavorites}) => {
             </div>
         
             <div className="d-flex flex-wrap">
-                {items?.map((i,ind)=>(
+                {favorites.map((i,ind)=>(
                     <Cart 
                         {...i}
                         onFavorite={onAddToFavorites}
