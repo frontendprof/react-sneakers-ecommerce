@@ -1,18 +1,19 @@
 
 import React,{useState} from 'react'
 import ContentLoader from "react-content-loader"
+import AppContext from '../../context'
 
 import styles from "./Cart.module.scss"
 
 
 
-const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false,added=false,loading=false}) => {
-  const [iconChange,setIconChange]=useState(added);
+const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false,loading=false}) => {
+
+  const {isAddedItem}=React.useContext(AppContext)
   const [isFavorite,setIsFavorite]=useState(favorited);
 
   const onIconClick=()=>{
     onPlus({id,title,price,imageUrl})
-    setIconChange(!iconChange)
   }
 
   const favoriteHandler=()=>{
@@ -53,7 +54,7 @@ const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false,added=f
               </div>
               <img className={styles.plus}
                 onClick={onIconClick}
-              src={iconChange ? "/img/btn-checked.svg" : "/img/btn-plus.svg" } alt="btn_plus_icon"                
+              src={isAddedItem(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg" } alt="btn_plus_icon"                
               />            
             </div>
           </>

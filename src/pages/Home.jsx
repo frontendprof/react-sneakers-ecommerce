@@ -3,8 +3,10 @@ import React from 'react'
 
 import Cart from "../components/Cart"
 
-const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites,cartItems,isLoading}) => {
+
+const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites,isLoading}) => {
     
+
     const renderItems=()=>{
         const filteredItems=items?.filter(item=>item.title.toLowerCase().includes(searchInput))
         return(isLoading?[...Array(10)]:filteredItems)
@@ -14,7 +16,6 @@ const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAd
                     {...i} 
                     onPlus={(obj)=>onAddToDrawer(i)} 
                     onFavorite={(obj)=>onAddToFavorites(obj)}
-                    added={cartItems.some(obj=>Number(obj.id)===i.id)}
                     loading={isLoading}
                 />
                 )

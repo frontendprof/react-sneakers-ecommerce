@@ -10,7 +10,7 @@ const Drawer = ({closeDrawer,items,onRemove}) => {
                 </h2>
                 {
                     items.length>0?
-                        (<>
+                        (<div className="d-flex flex-column flex">
                             <div className="items">
                                 {items.map(obj=>(
                                     <div className="cartItem d-flex align-center mb-20" key={obj.id}>
@@ -50,7 +50,7 @@ const Drawer = ({closeDrawer,items,onRemove}) => {
                                     <img src="/img/arrow.svg" alt="arrow_icon" />
                                 </button>
                             </div>
-                        </>):
+                        </div>):
 
                         (<div className="cartEmpty d-flex align-center justify-center flex-column flex">
                             <img 
