@@ -19,6 +19,7 @@ function App() {
   const [searchInput,setSearchInput]=useState("")
   const [isLoading,setIsLoading]=useState(true)
 
+  console.log(JSON.stringify(drawerItems))
   useEffect(()=>{
     async function fetchData(){      
       const cartResp= await axios.get("https://60e153115a5596001730f08d.mockapi.io/cart")      
