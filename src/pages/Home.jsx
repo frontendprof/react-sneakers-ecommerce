@@ -1,7 +1,7 @@
 
 import React from 'react'
-
 import Cart from "../components/Cart"
+
 
 
 const Home = ({items,searchInput,setSearchInput,onAddToDrawer,searchHandler,onAddToFavorites,isLoading}) => {

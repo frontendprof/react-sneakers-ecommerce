@@ -1,5 +1,5 @@
 
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import ContentLoader from "react-content-loader"
 import AppContext from '../../context'
 
@@ -18,7 +18,6 @@ const Cart = ({id,title,price,imageUrl,onPlus,onFavorite,favorited=false,loading
 
   const favoriteHandler=()=>{
     onFavorite({title,price,imageUrl,id})
-    setIsFavorite(!isFavorite)
   }
     return (
         
