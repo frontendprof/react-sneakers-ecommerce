@@ -1,13 +1,16 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-
+import AppContext from "../context"
 
 
 const Header = ({openDrawer}) => {
-    return (
-        
-        <header className="d-flex justify-between align-center p-40">
 
+    const {drawerItems}=React.useContext(AppContext)
+    const basketItemsPrice=drawerItems.reduce((sum,obj)=>obj.price+sum,0)
+
+
+    return (        
+        <header className="d-flex justify-between align-center p-40">
             <div className="d-flex align-center">
                 <Link to="/">
                     <img src="/img/logo.png" alt="main_logo" width={40} height={40} />
@@ -21,7 +24,7 @@ const Header = ({openDrawer}) => {
             <ul className="d-flex">
             <li className="mr-30 cu-p" onClick={openDrawer}>
                 <img src="/img/cart.svg" alt="cart_img" width={18} height={18} />
-                <span>1205 руб.</span>
+                <span>{basketItemsPrice} руб.</span>
             </li>
 
             <li className="mr-20 cu-p">
@@ -34,8 +37,7 @@ const Header = ({openDrawer}) => {
                 <img src="/img/user.svg" alt="user_img" width={18} height={18} />
             </li>
             </ul>
-        </header>
-        
+        </header>        
     )
 }
 

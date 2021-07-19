@@ -1,6 +1,13 @@
 import React from 'react'
+import AppContext from '../context'
 
 const Drawer = ({closeDrawer,items,onRemove}) => {
+
+    const {drawerItems}=React.useContext(AppContext)
+
+    const basketItemsPrice=drawerItems.reduce((sum,obj)=>obj.price+sum,0)
+    const taxAmount=basketItemsPrice*5/100;
+
     return (
         <div className="overlay">
             <div className="drawer">
@@ -10,7 +17,7 @@ const Drawer = ({closeDrawer,items,onRemove}) => {
                 </h2>
                 {
                     items.length>0?
-                        (<div className="d-flex flex-column flex">
+                        (<>
                             <div className="items">
                                 {items.map(obj=>(
                                     <div className="cartItem d-flex align-center mb-20" key={obj.id}>
@@ -35,13 +42,13 @@ const Drawer = ({closeDrawer,items,onRemove}) => {
                                     <li>
                                     <span>Итого:</span>
                                     <div></div>
-                                    <b>22 000 рубл.</b>
+                                    <b>{basketItemsPrice} рубл.</b>
                                     </li>
 
                                     <li>
                                     <span>Налог 5%:</span>
                                     <div></div>
-                                    <b>1100 рубл.</b>
+                                    <b>{taxAmount} рубл.</b>
                                     </li>
 
                                 </ul>
@@ -50,7 +57,7 @@ const Drawer = ({closeDrawer,items,onRemove}) => {
                                     <img src="/img/arrow.svg" alt="arrow_icon" />
                                 </button>
                             </div>
-                        </div>):
+                        </>):
 
                         (<div className="cartEmpty d-flex align-center justify-center flex-column flex">
                             <img 
