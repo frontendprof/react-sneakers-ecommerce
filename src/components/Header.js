@@ -1,13 +1,11 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import AppContext from "../context"
+import { useCart } from '../hooks/useCart';
 
 
 const Header = ({openDrawer}) => {
 
-    const {drawerItems}=React.useContext(AppContext)
-    const basketItemsPrice=drawerItems.reduce((sum,obj)=>obj.price+sum,0)
-
+    const {basketItemsPrice}=useCart()
 
     return (        
         <header className="d-flex justify-between align-center p-40">
@@ -34,7 +32,9 @@ const Header = ({openDrawer}) => {
             </li>
 
             <li>
-                <img src="/img/user.svg" alt="user_img" width={18} height={18} />
+                <Link to="/orders">
+                    <img src="/img/user.svg" alt="user_img" width={18} height={18} />
+                </Link>
             </li>
             </ul>
         </header>        

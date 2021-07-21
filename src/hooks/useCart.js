@@ -3,8 +3,10 @@ import AppContext from '../context'
 
 
 export const useCart=()=>{
-    const [drawerItems,setDrawerItems]=React.useContext(AppContext)
+    const {drawerItems,setDrawerItems}=React.useContext(AppContext)
     const basketItemsPrice=drawerItems.reduce((sum,obj)=>obj.price+sum,0)
 
-    return {drawerItems, setDrawerItems, basketItemsPrice}
+    const taxAmount=basketItemsPrice*5/100;
+
+    return {drawerItems, setDrawerItems, basketItemsPrice,taxAmount}
 }

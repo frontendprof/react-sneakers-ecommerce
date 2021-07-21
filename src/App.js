@@ -6,6 +6,7 @@ import Drawer from "./components/Drawer"
 import { Route } from "react-router-dom";
 import Home from "./pages/Home"
 import Favorites from "./pages/Favorites";
+import Orders from "./pages/Orders";
 import AppContext from "./context"
 
 
@@ -74,7 +75,8 @@ function App() {
   }
   
   return (
-    <AppContext.Provider value={{ items,drawerItems,favorites,isAddedItem,onAddToFavorites,setDrawerItems,setOpenDrawer }}>
+    <AppContext.Provider value={{ items,drawerItems,favorites,
+    isAddedItem,onAddToFavorites,setDrawerItems,setOpenDrawer,onAddToDrawer }}>
       <div className="wrapper clear">  
         {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
         items={drawerItems} onRemove={onRemoveFromDrawer}
@@ -94,9 +96,16 @@ function App() {
           />
 
         </Route>
+
         <Route path="/favorites">
           <Favorites />
-        </Route>   
+        </Route>
+
+        <Route path="/orders">
+          <Orders />
+        </Route> 
+
+
       </div>
     </AppContext.Provider>
 
