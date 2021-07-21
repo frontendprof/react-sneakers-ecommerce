@@ -19,7 +19,7 @@ function App() {
   const [searchInput,setSearchInput]=useState("")
   const [isLoading,setIsLoading]=useState(true)
 
-  console.log(JSON.stringify(drawerItems))
+
   useEffect(()=>{
     async function fetchData(){      
       const cartResp= await axios.get("https://60e153115a5596001730f08d.mockapi.io/cart")      
@@ -27,6 +27,7 @@ function App() {
       const itemsResp=await axios.get("https://60e153115a5596001730f08d.mockapi.io/items")
     
       setIsLoading(false)
+
       setDrawerItems(cartResp.data)
       setFavorites(favoritesResp.data)
       setItems(itemsResp.data)
@@ -73,7 +74,7 @@ function App() {
   }
   
   return (
-    <AppContext.Provider value={{ items,drawerItems,favorites,isAddedItem,onAddToFavorites }}>
+    <AppContext.Provider value={{ items,drawerItems,favorites,isAddedItem,onAddToFavorites,setDrawerItems,setOpenDrawer }}>
       <div className="wrapper clear">  
         {openDrawer&&<Drawer closeDrawer={()=>setOpenDrawer(false)} 
         items={drawerItems} onRemove={onRemoveFromDrawer}
